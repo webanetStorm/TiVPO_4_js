@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Библиотечная система</title>
+    <title>Библиотечная система (с ошибками)</title>
     <style>
       * {
         margin: 0;
@@ -30,7 +30,7 @@
       }
 
       header {
-        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         color: white;
         padding: 30px;
         text-align: center;
@@ -42,10 +42,15 @@
         font-weight: 300;
       }
 
-      .subtitle {
-        font-size: 1.1em;
-        opacity: 0.9;
-        font-weight: 300;
+      .warning {
+        background: #fff3cd;
+        color: #856404;
+        padding: 15px;
+        border: 1px solid #ffeaa7;
+        border-radius: 5px;
+        margin: 10px 0;
+        text-align: center;
+        font-weight: bold;
       }
 
       .main-content {
@@ -55,69 +60,11 @@
         padding: 30px;
       }
 
-      @media (max-width: 768px) {
-        .main-content {
-          grid-template-columns: 1fr;
-        }
-      }
-
       .section {
         background: #f8f9fa;
         border-radius: 10px;
         padding: 25px;
         border-left: 4px solid #3498db;
-      }
-
-      .section h2 {
-        color: #2c3e50;
-        margin-bottom: 20px;
-        font-size: 1.4em;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .section h2::before {
-        content: "📚";
-        font-size: 1.2em;
-      }
-
-      .search-section h2::before {
-        content: "🔍";
-      }
-
-      .actions-section h2::before {
-        content: "⚡";
-      }
-
-      .report-section h2::before {
-        content: "📊";
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #2c3e50;
-      }
-
-      input[type="text"], input[type="number"] {
-        width: 100%;
-        padding: 12px 15px;
-        border: 2px solid #e9ecef;
-        border-radius: 8px;
-        font-size: 16px;
-        transition: all 0.3s ease;
-      }
-
-      input[type="text"]:focus, input[type="number"]:focus {
-        outline: none;
-        border-color: #3498db;
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
       }
 
       .btn {
@@ -146,13 +93,6 @@
         background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
       }
 
-      .btn-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-      }
-
       .results {
         background: white;
         border-radius: 8px;
@@ -161,49 +101,6 @@
         border: 1px solid #e9ecef;
         max-height: 300px;
         overflow-y: auto;
-      }
-
-      .book-item {
-        padding: 12px;
-        border-bottom: 1px solid #e9ecef;
-        display: flex;
-        justify-content: between;
-        align-items: center;
-      }
-
-      .book-item:last-child {
-        border-bottom: none;
-      }
-
-      .book-info {
-        flex-grow: 1;
-      }
-
-      .book-title {
-        font-weight: 600;
-        color: #2c3e50;
-      }
-
-      .book-author {
-        color: #7f8c8d;
-        font-size: 0.9em;
-      }
-
-      .book-status {
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 0.8em;
-        font-weight: 600;
-      }
-
-      .status-available {
-        background: #d5f4e6;
-        color: #27ae60;
-      }
-
-      .status-borrowed {
-        background: #fdebd0;
-        color: #e67e22;
       }
 
       pre {
@@ -217,34 +114,6 @@
         overflow-x: auto;
         max-height: 400px;
         overflow-y: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-        margin-top: 15px;
-      }
-
-      .stat-card {
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-        border: 1px solid #e9ecef;
-      }
-
-      .stat-number {
-        font-size: 2em;
-        font-weight: bold;
-        color: #3498db;
-      }
-
-      .stat-label {
-        color: #7f8c8d;
-        font-size: 0.9em;
       }
 
       .alert {
@@ -276,97 +145,64 @@
   <body>
     <div class="container">
       <header>
-        <h1>📚 Библиотечная система</h1>
-        <p class="subtitle">Управление книгами и пользователями</p>
+        <h1>⚠️ Библиотечная система (с ошибками)</h1>
+        <p class="subtitle">Версия для тестирования динамического анализа</p>
       </header>
+
+      <div class="warning">
+        ⚠️ ВНИМАНИЕ: Эта версия содержит преднамеренные ошибки для тестирования анализаторов
+      </div>
 
       <div class="main-content">
         <!-- Левая колонка -->
         <div class="left-column">
           <!-- Поиск книг -->
-          <div class="section search-section">
-            <h2>Поиск книг</h2>
-            <div class="form-group">
-              <label for="searchInput">Введите название книги или автора:</label>
-              <input type="text" id="searchInput" placeholder="Например: Оруэлл, 1984, Булгаков...">
-            </div>
-            <button class="btn" onclick="searchBooks()">🔍 Найти книги</button>
-
-            <div class="results" id="searchResults">
-              <div style="text-align: center; color: #7f8c8d; padding: 20px;">
-                Результаты поиска появятся здесь...
-              </div>
-            </div>
+          <div class="section">
+            <h2>🔍 Поиск книг</h2>
+            <input type="text" id="searchInput" placeholder="Введите автора или название">
+            <button class="btn" onclick="searchBooks()">Поиск</button>
+            <button class="btn btn-danger" onclick="stressTest()">💥 Тест производительности</button>
+            <div class="results" id="searchResults"></div>
           </div>
 
           <!-- Управление книгами -->
-          <div class="section actions-section">
-            <h2>Действия с книгами</h2>
-            <div class="btn-group">
-              <button class="btn btn-success" onclick="borrowBook()">
-                📖 Алиса берет "1984"
-              </button>
-              <button class="btn btn-danger" onclick="returnBook()">
-                ↩️ Алиса возвращает книгу
-              </button>
-            </div>
-
-            <div class="results" id="actionResults">
-              <div style="text-align: center; color: #7f8c8d; padding: 20px;">
-                Результаты действий появятся здесь...
-              </div>
-            </div>
+          <div class="section">
+            <h2>⚡ Действия с книгами</h2>
+            <button class="btn btn-success" onclick="borrowBook()">Алиса берет книгу "1984"</button>
+            <button class="btn btn-danger" onclick="returnBook()">Алиса возвращает книгу</button>
+            <button class="btn" onclick="testMemoryLeak()">🧪 Тест утечки памяти</button>
+            <div class="results" id="actionResults"></div>
           </div>
         </div>
 
         <!-- Правая колонка -->
         <div class="right-column">
-          <!-- Статистика и отчет -->
-          <div class="section report-section">
-            <h2>Отчет библиотеки</h2>
-            <button class="btn" onclick="generateReport()">📊 Сгенерировать отчет</button>
-
-            <div class="stats">
-              <div class="stat-card">
-                <div class="stat-number" id="totalBooks">3</div>
-                <div class="stat-label">Всего книг</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-number" id="borrowedBooks">0</div>
-                <div class="stat-label">Выдано книг</div>
-              </div>
-            </div>
-
+          <!-- Отчет -->
+          <div class="section">
+            <h2>📊 Отчет</h2>
+            <button class="btn" onclick="generateReport()">Сгенерировать отчет</button>
+            <button class="btn" onclick="clearCache()">🧹 Очистить кэш</button>
             <pre id="reportOutput">Нажмите "Сгенерировать отчет" для просмотра...</pre>
           </div>
 
-          <!-- Информация о системе -->
+          <!-- Информация -->
           <div class="section">
-            <h2>📋 Информация о системе</h2>
-            <div class="alert alert-success">
-              ✅ Система работает стабильно
+            <h2>📋 Информация</h2>
+            <div class="alert alert-error">
+              ℹ️ Система содержит преднамеренные ошибки для тестирования
             </div>
-            <div style="margin-top: 15px;">
-              <strong>Доступные книги:</strong>
-              <ul style="margin-top: 10px; margin-left: 20px;">
-                <li>"1984" - Джордж Оруэлл (1949)</li>
-                <li>"Мастер и Маргарита" - Михаил Булгаков (1967)</li>
-                <li>"Преступление и наказание" - Ф. Достоевский (1866)</li>
-              </ul>
-            </div>
-            <div style="margin-top: 15px;">
-              <strong>Пользователи:</strong>
-              <ul style="margin-top: 10px; margin-left: 20px;">
-                <li>Алиса (ID: 101)</li>
-                <li>Боб (ID: 102)</li>
-              </ul>
-            </div>
+            <div id="memoryInfo">Использование памяти: -</div>
+            <div id="performanceInfo">Время выполнения: -</div>
           </div>
         </div>
       </div>
     </div>
 
     <script>
+      // ОШИБКА 1: Глобальная переменная для утечки памяти
+      let memoryLeakData = [];
+      let searchCache = new Map(); // Кэш который никогда не очищается
+
       class Book {
         constructor(id, title, author, year, available = true) {
           this.id = id;
@@ -397,6 +233,16 @@
           }
           book.available = false;
           this.borrowedBooks.push(book);
+
+          // ОШИБКА 1: Утечка памяти - сохраняем историю операций
+          memoryLeakData.push({
+            type: 'borrow',
+            user: this.name,
+            book: book.title,
+            timestamp: Date.now(),
+            // Дополнительные данные для увеличения утечки
+            extraData: new Array(100).fill('leak').join('')
+          });
         }
 
         returnBook(book) {
@@ -409,6 +255,15 @@
           }
           this.borrowedBooks.splice(index, 1);
           book.available = true;
+
+          // Продолжаем утечку памяти
+          memoryLeakData.push({
+            type: 'return',
+            user: this.name,
+            book: book.title,
+            timestamp: Date.now(),
+            extraData: new Array(100).fill('leak').join('')
+          });
         }
 
         getBorrowedTitles() {
@@ -442,137 +297,202 @@
           if (!query || typeof query !== 'string') {
             return [];
           }
+
+          // ОШИБКА 2: Неэффективный кэш (никогда не очищается)
+          if (searchCache.has(query)) {
+            return searchCache.get(query);
+          }
+
+          // ОШИБКА 3: Проблема производительности - искусственная задержка
+          const startTime = performance.now();
+          let result = 0;
+          for (let i = 0; i < 10000; i++) {
+            result += Math.sqrt(i) * Math.sin(i); // Бесполезные вычисления
+          }
+
           const q = query.toLowerCase();
-          return this.books.filter(b =>
+          const searchResult = this.books.filter(b =>
                   b.title.toLowerCase().includes(q) ||
                   b.author.toLowerCase().includes(q)
           );
+
+          searchCache.set(query, searchResult);
+
+          // Сохраняем данные для утечки
+          memoryLeakData.push({
+            type: 'search',
+            query: query,
+            results: searchResult.length,
+            timestamp: Date.now()
+          });
+
+          return searchResult;
         }
 
         generateReport() {
-          let report = "=== ОТЧЁТ БИБЛИОТЕКИ ===\n\n";
+          let report = "=== ОТЧЁТ БИБЛИОТЕКИ ===\n";
+
+          // ОШИБКА 3: Неэффективный алгоритм O(n^2)
+          let totalComparisons = 0;
+          for (let i = 0; i < this.books.length; i++) {
+            for (let j = i; j < this.books.length; j++) {
+              totalComparisons++;
+              // Дополнительная нагрузка
+              let temp = [];
+              for (let k = 0; k < 100; k++) {
+                temp.push(k * k);
+              }
+            }
+          }
+
           for (const book of this.books) {
             const status = book.available ? "В наличии" : "Выдана";
             report += `${book.id}. ${book.title} — ${status}\n`;
           }
           report += `\nВсего книг: ${this.books.length}\n`;
           report += `Выдано: ${this.books.filter(b => !b.available).length}\n`;
-          return report;
-        }
+          report += `Сравнений в отчете: ${totalComparisons}\n`;
+          report += `Размер утечки: ${memoryLeakData.length} записей\n`;
+          report += `Размер кэша: ${searchCache.size} запросов\n`;
 
-        getStats() {
-          return {
-            totalBooks: this.books.length,
-            borrowedBooks: this.books.filter(b => !b.available).length
-          };
+          return report;
         }
       }
 
       // Инициализация библиотеки
       const lib = new Library();
-
-      // Добавляем книги
       lib.addBook(new Book(1, "1984", "Джордж Оруэлл", 1949));
       lib.addBook(new Book(2, "Мастер и Маргарита", "Михаил Булгаков", 1967));
       lib.addBook(new Book(3, "Преступление и наказание", "Ф. Достоевский", 1866));
 
-      // Добавляем пользователей
       lib.addUser(new User(101, "Алиса"));
       lib.addUser(new User(102, "Боб"));
 
-      // Глобальные переменные для тестирования
       const user = lib.findUserById(101);
       const book = lib.findBookById(1);
 
       // Функции для интерфейса
       function searchBooks() {
         const query = document.getElementById('searchInput').value;
+        const startTime = performance.now();
+
         const results = lib.searchBooks(query);
-        const resultsContainer = document.getElementById('searchResults');
+        const endTime = performance.now();
 
-        if (results.length === 0) {
-          resultsContainer.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">Книги не найдены</div>';
-          return;
-        }
+        document.getElementById('searchResults').innerHTML =
+                results.map(b => `<div>${b.toString()}</div>`).join('') +
+                `<div class="alert alert-info">Время поиска: ${(endTime - startTime).toFixed(2)}ms</div>`;
 
-        resultsContainer.innerHTML = results.map(book => `
-                <div class="book-item">
-                    <div class="book-info">
-                        <div class="book-title">${book.title}</div>
-                        <div class="book-author">${book.author} (${book.year})</div>
-                    </div>
-                    <span class="book-status ${book.available ? 'status-available' : 'status-borrowed'}">
-                        ${book.available ? 'В наличии' : 'Выдана'}
-                    </span>
-                </div>
-            `).join('');
+        updateMemoryInfo();
       }
 
       function borrowBook() {
-        const actionResults = document.getElementById('actionResults');
         try {
           user.borrowBook(book);
-          actionResults.innerHTML = `
-                    <div class="alert alert-success">
-                        ✅ ${user.name} успешно взяла книгу: "${book.title}"
-                    </div>
-                `;
-          updateStats();
+          document.getElementById('actionResults').innerHTML =
+                  `<div class="alert alert-success">${user.name} взял: ${book.title}</div>`;
+          updateMemoryInfo();
         } catch (e) {
-          actionResults.innerHTML = `
-                    <div class="alert alert-danger">
-                        ❌ Ошибка: ${e.message}
-                    </div>
-                `;
+          document.getElementById('actionResults').innerHTML =
+                  `<div class="alert alert-danger">Ошибка: ${e.message}</div>`;
         }
       }
 
       function returnBook() {
-        const actionResults = document.getElementById('actionResults');
         try {
           user.returnBook(book);
-          actionResults.innerHTML = `
-                    <div class="alert alert-success">
-                        ✅ ${user.name} успешно вернула книгу: "${book.title}"
-                    </div>
-                `;
-          updateStats();
+          document.getElementById('actionResults').innerHTML =
+                  `<div class="alert alert-success">${user.name} вернул: ${book.title}</div>`;
+          updateMemoryInfo();
         } catch (e) {
-          actionResults.innerHTML = `
-                    <div class="alert alert-danger">
-                        ❌ Ошибка: ${e.message}
-                    </div>
-                `;
+          document.getElementById('actionResults').innerHTML =
+                  `<div class="alert alert-danger">Ошибка: ${e.message}</div>`;
         }
       }
 
       function generateReport() {
+        const startTime = performance.now();
         document.getElementById('reportOutput').textContent = lib.generateReport();
-        updateStats();
+        const endTime = performance.now();
+
+        document.getElementById('performanceInfo').textContent =
+                `Время генерации отчета: ${(endTime - startTime).toFixed(2)}ms`;
+        updateMemoryInfo();
       }
 
-      function updateStats() {
-        const stats = lib.getStats();
-        document.getElementById('totalBooks').textContent = stats.totalBooks;
-        document.getElementById('borrowedBooks').textContent = stats.borrowedBooks;
-      }
+      function stressTest() {
+        const startTime = performance.now();
+        let operations = 0;
 
-      // Инициализация при загрузке
-      document.addEventListener('DOMContentLoaded', function() {
-        updateStats();
+        // Создаем нагрузку на CPU и память
+        for (let i = 0; i < 1000; i++) {
+          lib.searchBooks("test" + i);
+          operations++;
 
-        // Добавляем обработчик Enter для поиска
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            searchBooks();
+          // Периодически добавляем данные для утечки
+          if (i % 100 === 0) {
+            memoryLeakData.push({
+              type: 'stress_test',
+              iteration: i,
+              data: new Array(1000).fill('stress_data').join('')
+            });
           }
-        });
-      });
+        }
+
+        const endTime = performance.now();
+        document.getElementById('actionResults').innerHTML =
+                `<div class="alert alert-info">
+                    Stress test завершен<br>
+                    Операций: ${operations}<br>
+                    Время: ${(endTime - startTime).toFixed(2)}ms<br>
+                    Утечка памяти: ${memoryLeakData.length} записей
+                </div>`;
+        updateMemoryInfo();
+      }
+
+      function testMemoryLeak() {
+        // Создаем утечку памяти
+        for (let i = 0; i < 500; i++) {
+          memoryLeakData.push({
+            type: 'memory_leak_test',
+            id: i,
+            largeData: new Array(500).fill('leak_data_' + i).join(''),
+            timestamp: Date.now()
+          });
+        }
+
+        document.getElementById('actionResults').innerHTML =
+                `<div class="alert alert-danger">
+                    ✅ Утечка памяти создана<br>
+                    Добавлено 500 записей в memoryLeakData<br>
+                    Общий размер утечки: ${memoryLeakData.length} записей
+                </div>`;
+        updateMemoryInfo();
+      }
+
+      function clearCache() {
+        searchCache.clear();
+        document.getElementById('actionResults').innerHTML =
+                `<div class="alert alert-success">Кэш очищен</div>`;
+        updateMemoryInfo();
+      }
+
+      function updateMemoryInfo() {
+        document.getElementById('memoryInfo').textContent =
+                `Утечка памяти: ${memoryLeakData.length} записей | Кэш: ${searchCache.size} запросов`;
+      }
 
       // Для тестирования в консоли
       window.lib = lib;
       window.user = user;
       window.book = book;
+      window.memoryLeakData = memoryLeakData;
+      window.searchCache = searchCache;
+
+      // Инициализация
+      document.addEventListener('DOMContentLoaded', function() {
+        updateMemoryInfo();
+      });
     </script>
   </body>
 </html>
