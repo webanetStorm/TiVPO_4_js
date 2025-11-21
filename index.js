@@ -1,4 +1,4 @@
-// library.js — библиотечная система (CLI-режим)
+// library.js — библиотечная система (CLI), версия С ОШИБКАМИ
 class Book {
     constructor(id, title, author, year, available = true) {
         this.id = id;
@@ -21,20 +21,34 @@ class User {
     }
 
     borrowBook(book) {
+        // ОШИБКА 1: Использование необъявленной переменной
+        if (!book) {
+            throw new Error('Book is undefined');
+        }
         if (!book.available) {
             throw new Error(`Книга "${book.title}" уже выдана`);
         }
         book.available = false;
         this.borrowedBooks.push(book);
+
+        // ОШИБКА 2: Бессмысленная операция (dead code)
+        result = "success";
     }
 
     returnBook(book) {
+        if (!book) {
+            throw new Error('Book is undefined');
+        }
         const index = this.borrowedBooks.indexOf(book);
         if (index === -1) {
             throw new Error(`Пользователь не брал книгу "${book.title}"`);
         }
         this.borrowedBooks.splice(index, 1);
         book.available = true;
+
+        // ОШИБКА 3: Присвоение константе
+        const maxBooks = 5;
+        maxBooks = 10;
     }
 
     getBorrowedTitles() {
@@ -65,6 +79,9 @@ class Library {
     }
 
     searchBooks(query) {
+        if (!query || typeof query !== 'string') {
+            return [];
+        }
         const q = query.toLowerCase();
         return this.books.filter(b =>
             b.title.toLowerCase().includes(q) ||
@@ -72,34 +89,45 @@ class Library {
         );
     }
 
-    // уязвимое место: нет проверки на undefined — логическая ошибка
     lendBook(userId, bookId) {
         const user = this.findUserById(userId);
         const book = this.findBookById(bookId);
-        user.borrowBook(book); // ← может упасть, если user или book === undefined
+        if (!user) throw new Error(`Пользователь с ID ${userId} не найден`);
+        if (!book) throw new Error(`Книга с ID ${bookId} не найдена`);
+        user.borrowBook(book);
     }
 
     returnBook(userId, bookId) {
         const user = this.findUserById(userId);
         const book = this.findBookById(bookId);
-        user.returnBook(book); // ← то же
+        if (!user) throw new Error(`Пользователь с ID ${userId} не найден`);
+        if (!book) throw new Error(`Книга с ID ${bookId} не найдена`);
+        user.returnBook(book);
     }
 
-    // для дин-анализа: потенциально медленная операция при большом кол-ве книг
     generateReport() {
         let report = "=== ОТЧЁТ БИБЛИОТЕКИ ===\n";
-        for (let i = 0; i < this.books.length; i++) {
-            const book = this.books[i];
-            let status = book.available ? "В наличии" : "Выдана";
+        // ОШИБКА 4: Неиспользуемая переменная
+        const unusedVar = "Это нигде не используется";
+
+        for (const book of this.books) {
+            const status = book.available ? "В наличии" : "Выдана";
             report += `${book.id}. ${book.title} — ${status}\n`;
         }
         report += `\nВсего книг: ${this.books.length}\n`;
         report += `Выдано: ${this.books.filter(b => !b.available).length}\n`;
+
+        // ОШИБКА 5: Сравнение разных типов
+        if (this.books.length == "0") {
+            report += "Библиотека пуста!\n";
+        }
+
         return report;
     }
 }
 
-// --- Инициализация и тестовые данные ---
+// ОШИБКА 6: Дублирование объявления (extra)
+const lib = new Library();
 const lib = new Library();
 
 lib.addBook(new Book(1, "1984", "Джордж Оруэлл", 1949));
@@ -109,7 +137,6 @@ lib.addBook(new Book(3, "Преступление и наказание", "Ф. �
 lib.addUser(new User(101, "Алиса"));
 lib.addUser(new User(102, "Боб"));
 
-// Для дин-анализа: запуск сценария
 if (require.main === module) {
     console.log("Поиск 'оруэлл':", lib.searchBooks("оруэлл").map(b => b.title));
 
