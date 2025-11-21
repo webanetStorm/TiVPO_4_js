@@ -1,4 +1,4 @@
-// library.js — библиотечная система (CLI), версия С ОШИБКАМИ
+// library.js — библиотечная система (CLI), версия БЕЗ ошибок
 class Book {
     constructor(id, title, author, year, available = true) {
         this.id = id;
@@ -21,7 +21,6 @@ class User {
     }
 
     borrowBook(book) {
-        // ОШИБКА 1: Использование необъявленной переменной
         if (!book) {
             throw new Error('Book is undefined');
         }
@@ -30,9 +29,6 @@ class User {
         }
         book.available = false;
         this.borrowedBooks.push(book);
-
-        // ОШИБКА 2: Бессмысленная операция (dead code)
-        result = "success";
     }
 
     returnBook(book) {
@@ -45,10 +41,6 @@ class User {
         }
         this.borrowedBooks.splice(index, 1);
         book.available = true;
-
-        // ОШИБКА 3: Присвоение константе
-        const maxBooks = 5;
-        maxBooks = 10;
     }
 
     getBorrowedTitles() {
@@ -107,27 +99,17 @@ class Library {
 
     generateReport() {
         let report = "=== ОТЧЁТ БИБЛИОТЕКИ ===\n";
-        // ОШИБКА 4: Неиспользуемая переменная
-        const unusedVar = "Это нигде не используется";
-
-        for (const book of this.books) {
+        for (const book of this.books) { // ← for-of вместо for-i (устраняет code smell)
             const status = book.available ? "В наличии" : "Выдана";
             report += `${book.id}. ${book.title} — ${status}\n`;
         }
         report += `\nВсего книг: ${this.books.length}\n`;
         report += `Выдано: ${this.books.filter(b => !b.available).length}\n`;
-
-        // ОШИБКА 5: Сравнение разных типов
-        if (this.books.length == "0") {
-            report += "Библиотека пуста!\n";
-        }
-
         return report;
     }
 }
 
-// ОШИБКА 6: Дублирование объявления (extra)
-const lib = new Library();
+// --- Инициализация и тестовые данные ---
 const lib = new Library();
 
 lib.addBook(new Book(1, "1984", "Джордж Оруэлл", 1949));

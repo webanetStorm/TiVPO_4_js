@@ -1,0 +1,7 @@
+[0m[0m
+[0m[4mD:\МИРЭА\5 семестр\ТиВПО\Практическая работа №4\js\index.js[24m[0m
+[0m  [2m122:5[22m   [31merror[39m  'require' is not defined  [2mno-undef[22m[0m
+[0m  [2m122:22[22m  [31merror[39m  'module' is not defined   [2mno-undef[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m

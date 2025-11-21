@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотечная система</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+      }
+
+      header {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 300;
+      }
+
+      .subtitle {
+        font-size: 1.1em;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        padding: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .section {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 25px;
+        border-left: 4px solid #3498db;
+      }
+
+      .section h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 1.4em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section h2::before {
+        content: "📚";
+        font-size: 1.2em;
+      }
+
+      .search-section h2::before {
+        content: "🔍";
+      }
+
+      .actions-section h2::before {
+        content: "⚡";
+      }
+
+      .report-section h2::before {
+        content: "📊";
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      input[type="text"]:focus, input[type="number"]:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 5px;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+      }
+
+      .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .results {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        border: 1px solid #e9ecef;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .book-item {
+        padding: 12px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: between;
+        align-items: center;
+      }
+
+      .book-item:last-child {
+        border-bottom: none;
+      }
+
+      .book-info {
+        flex-grow: 1;
+      }
+
+      .book-title {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .book-author {
+        color: #7f8c8d;
+        font-size: 0.9em;
+      }
+
+      .book-status {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      .status-available {
+        background: #d5f4e6;
+        color: #27ae60;
+      }
+
+      .status-borrowed {
+        background: #fdebd0;
+        color: #e67e22;
+      }
+
+      pre {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        overflow-x: auto;
+        max-height: 400px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #e9ecef;
+      }
+
+      .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: #3498db;
+      }
+
+      .stat-label {
+        color: #7f8c8d;
+        font-size: 0.9em;
+      }
+
+      .alert {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        font-weight: 500;
+      }
+
+      .alert-success {
+        background: #d5f4e6;
+        color: #27ae60;
+        border: 1px solid #a3e4c1;
+      }
+
+      .alert-error {
+        background: #fdebd0;
+        color: #e67e22;
+        border: 1px solid #fad7a0;
+      }
+
+      .alert-danger {
+        background: #fadbd8;
+        color: #e74c3c;
+        border: 1px solid #f5b7b1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>📚 Библиотечная система</h1>
+        <p class="subtitle">Управление книгами и пользователями</p>
+      </header>
+
+      <div class="main-content">
+        <!-- Левая колонка -->
+        <div class="left-column">
+          <!-- Поиск книг -->
+          <div class="section search-section">
+            <h2>Поиск книг</h2>
+            <div class="form-group">
+              <label for="searchInput">Введите название книги или автора:</label>
+              <input type="text" id="searchInput" placeholder="Например: Оруэлл, 1984, Булгаков...">
+            </div>
+            <button class="btn" onclick="searchBooks()">🔍 Найти книги</button>
+
+            <div class="results" id="searchResults">
+              <div style="text-align: center; color: #7f8c8d; padding: 20px;">
+                Результаты поиска появятся здесь...
+              </div>
+            </div>
+          </div>
+
+          <!-- Управление книгами -->
+          <div class="section actions-section">
+            <h2>Действия с книгами</h2>
+            <div class="btn-group">
+              <button class="btn btn-success" onclick="borrowBook()">
+                📖 Алиса берет "1984"
+              </button>
+              <button class="btn btn-danger" onclick="returnBook()">
+                ↩️ Алиса возвращает книгу
+              </button>
+            </div>
+
+            <div class="results" id="actionResults">
+              <div style="text-align: center; color: #7f8c8d; padding: 20px;">
+                Результаты действий появятся здесь...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="right-column">
+          <!-- Статистика и отчет -->
+          <div class="section report-section">
+            <h2>Отчет библиотеки</h2>
+            <button class="btn" onclick="generateReport()">📊 Сгенерировать отчет</button>
+
+            <div class="stats">
+              <div class="stat-card">
+                <div class="stat-number" id="totalBooks">3</div>
+                <div class="stat-label">Всего книг</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number" id="borrowedBooks">0</div>
+                <div class="stat-label">Выдано книг</div>
+              </div>
+            </div>
+
+            <pre id="reportOutput">Нажмите "Сгенерировать отчет" для просмотра...</pre>
+          </div>
+
+          <!-- Информация о системе -->
+          <div class="section">
+            <h2>📋 Информация о системе</h2>
+            <div class="alert alert-success">
+              ✅ Система работает стабильно
+            </div>
+            <div style="margin-top: 15px;">
+              <strong>Доступные книги:</strong>
+              <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>"1984" - Джордж Оруэлл (1949)</li>
+                <li>"Мастер и Маргарита" - Михаил Булгаков (1967)</li>
+                <li>"Преступление и наказание" - Ф. Достоевский (1866)</li>
+              </ul>
+            </div>
+            <div style="margin-top: 15px;">
+              <strong>Пользователи:</strong>
+              <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>Алиса (ID: 101)</li>
+                <li>Боб (ID: 102)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      class Book {
+        constructor(id, title, author, year, available = true) {
+          this.id = id;
+          this.title = title;
+          this.author = author;
+          this.year = year;
+          this.available = available;
+        }
+
+        toString() {
+          return `${this.title} (${this.year}) by ${this.author} [${this.available ? 'в наличии' : 'выдана'}]`;
+        }
+      }
+
+      class User {
+        constructor(id, name) {
+          this.id = id;
+          this.name = name;
+          this.borrowedBooks = [];
+        }
+
+        borrowBook(book) {
+          if (!book) {
+            throw new Error('Book is undefined');
+          }
+          if (!book.available) {
+            throw new Error(`Книга "${book.title}" уже выдана`);
+          }
+          book.available = false;
+          this.borrowedBooks.push(book);
+        }
+
+        returnBook(book) {
+          if (!book) {
+            throw new Error('Book is undefined');
+          }
+          const index = this.borrowedBooks.indexOf(book);
+          if (index === -1) {
+            throw new Error(`Пользователь не брал книгу "${book.title}"`);
+          }
+          this.borrowedBooks.splice(index, 1);
+          book.available = true;
+        }
+
+        getBorrowedTitles() {
+          return this.borrowedBooks.map(b => b.title);
+        }
+      }
+
+      class Library {
+        constructor() {
+          this.books = [];
+          this.users = [];
+        }
+
+        addBook(book) {
+          this.books.push(book);
+        }
+
+        addUser(user) {
+          this.users.push(user);
+        }
+
+        findBookById(id) {
+          return this.books.find(b => b.id === id);
+        }
+
+        findUserById(id) {
+          return this.users.find(u => u.id === id);
+        }
+
+        searchBooks(query) {
+          if (!query || typeof query !== 'string') {
+            return [];
+          }
+          const q = query.toLowerCase();
+          return this.books.filter(b =>
+                  b.title.toLowerCase().includes(q) ||
+                  b.author.toLowerCase().includes(q)
+          );
+        }
+
+        generateReport() {
+          let report = "=== ОТЧЁТ БИБЛИОТЕКИ ===\n\n";
+          for (const book of this.books) {
+            const status = book.available ? "В наличии" : "Выдана";
+            report += `${book.id}. ${book.title} — ${status}\n`;
+          }
+          report += `\nВсего книг: ${this.books.length}\n`;
+          report += `Выдано: ${this.books.filter(b => !b.available).length}\n`;
+          return report;
+        }
+
+        getStats() {
+          return {
+            totalBooks: this.books.length,
+            borrowedBooks: this.books.filter(b => !b.available).length
+          };
+        }
+      }
+
+      // Инициализация библиотеки
+      const lib = new Library();
+
+      // Добавляем книги
+      lib.addBook(new Book(1, "1984", "Джордж Оруэлл", 1949));
+      lib.addBook(new Book(2, "Мастер и Маргарита", "Михаил Булгаков", 1967));
+      lib.addBook(new Book(3, "Преступление и наказание", "Ф. Достоевский", 1866));
+
+      // Добавляем пользователей
+      lib.addUser(new User(101, "Алиса"));
+      lib.addUser(new User(102, "Боб"));
+
+      // Глобальные переменные для тестирования
+      const user = lib.findUserById(101);
+      const book = lib.findBookById(1);
+
+      // Функции для интерфейса
+      function searchBooks() {
+        const query = document.getElementById('searchInput').value;
+        const results = lib.searchBooks(query);
+        const resultsContainer = document.getElementById('searchResults');
+
+        if (results.length === 0) {
+          resultsContainer.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">Книги не найдены</div>';
+          return;
+        }
+
+        resultsContainer.innerHTML = results.map(book => `
+                <div class="book-item">
+                    <div class="book-info">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">${book.author} (${book.year})</div>
+                    </div>
+                    <span class="book-status ${book.available ? 'status-available' : 'status-borrowed'}">
+                        ${book.available ? 'В наличии' : 'Выдана'}
+                    </span>
+                </div>
+            `).join('');
+      }
+
+      function borrowBook() {
+        const actionResults = document.getElementById('actionResults');
+        try {
+          user.borrowBook(book);
+          actionResults.innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ ${user.name} успешно взяла книгу: "${book.title}"
+                    </div>
+                `;
+          updateStats();
+        } catch (e) {
+          actionResults.innerHTML = `
+                    <div class="alert alert-danger">
+                        ❌ Ошибка: ${e.message}
+                    </div>
+                `;
+        }
+      }
+
+      function returnBook() {
+        const actionResults = document.getElementById('actionResults');
+        try {
+          user.returnBook(book);
+          actionResults.innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ ${user.name} успешно вернула книгу: "${book.title}"
+                    </div>
+                `;
+          updateStats();
+        } catch (e) {
+          actionResults.innerHTML = `
+                    <div class="alert alert-danger">
+                        ❌ Ошибка: ${e.message}
+                    </div>
+                `;
+        }
+      }
+
+      function generateReport() {
+        document.getElementById('reportOutput').textContent = lib.generateReport();
+        updateStats();
+      }
+
+      function updateStats() {
+        const stats = lib.getStats();
+        document.getElementById('totalBooks').textContent = stats.totalBooks;
+        document.getElementById('borrowedBooks').textContent = stats.borrowedBooks;
+      }
+
+      // Инициализация при загрузке
+      document.addEventListener('DOMContentLoaded', function() {
+        updateStats();
+
+        // Добавляем обработчик Enter для поиска
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            searchBooks();
+          }
+        });
+      });
+
+      // Для тестирования в консоли
+      window.lib = lib;
+      window.user = user;
+      window.book = book;
+    </script>
+  </body>
+</html>
